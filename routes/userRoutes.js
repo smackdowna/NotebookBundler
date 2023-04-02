@@ -14,7 +14,7 @@ router.route("/register").post(singleUpload,register);
 router.route("/login").post(login);
 
 //logout user
-router.route("/logout").post(logout);
+router.route("/logout").get(logout);
 
 //get my profile
 router.route("/me")
