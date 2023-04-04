@@ -12,7 +12,8 @@ const schema = new mongoose.Schema({
         required:[true,'Please entere book description'],
         minLength:[20,"title must be at least 20 character"],
     },
-    bookLink:{
+    bookLink:[
+        {
         public_id:{
             type:String,
             required:true,
@@ -22,6 +23,7 @@ const schema = new mongoose.Schema({
             required:true,
         },
     },
+   ],
     poster:{
         public_id:{
             type:String,
@@ -36,6 +38,23 @@ const schema = new mongoose.Schema({
         type:Number,
         default:0,
     },
+    discuss:[
+        {
+            user:{
+                type:mongoose.Schema.ObjectId,
+                ref:"User",
+                required:true
+            },
+            name:{
+                type:String,
+                required:true
+            },
+            comment:{
+                type:String,
+                required:true
+            }
+        }
+    ],
     category:{
         type:String,
         required:true,

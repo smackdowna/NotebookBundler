@@ -46,22 +46,18 @@ export const createEbook = catchAsyncError(async(req,res,next)=>{
     await Ebooks.create({
         title,
         description,
-        bookLink:{
-            public_id:mycloud.public_id,
-            url:mycloud.secure_url,
-        },
         category,
         createdBy,
         poster:{
-            public_id:"temp",
-            url:"temp",
+            public_id:mycloud.public_id,
+            url:mycloud.secure_url,
         }
     });
 
 
     res.status(201).json({
         success:true,
-        message:"Ebooks Created succesfully",
+        message:"Ebooks Created succesfully, You can add PDf Now",
     })
 });
 
@@ -105,6 +101,73 @@ export const deleteEbook = catchAsyncError(async(req,res,next)=>{
         message:"Ebook Deleted Successfully",
     })
 });
+
+
+
+//Add PDF
+export const AddPdf = catchAsyncError(async(req,res,next)=>{
+    
+    const { id } = req.params;
+
+    const ebook = await Ebooks.findById(id);
+
+    if(!ebook) return next(new ErrorHandler("Ebook Not Found",400));
+
+    // for PDF
+    const file = req.file;
+
+    const fileUri = getDataUri(file);
+
+    const mycloud = await cloudinary.v2.uploader.upload(fileUri.content);
+
+    ebook.bookLink=({
+        public_id:mycloud.public_id,
+        url:mycloud.secure_url,
+    });
+
+    await ebook.save();
+
+    res.status(201).json({
+        success:true,
+        message:"Pdf Added",
+    })
+});
+
+
+
+//ADd discussion
+export const addComment = catchAsyncError(async(req,res,next)=>{
+
+    const { id } = req.params;
+    const {comment} = req.body;
+
+    const review = {
+        user:req.user._id,
+        name:req.user.name,
+        comment,
+    };
+
+    const ebook = await Ebooks.findById(id);
+
+    const isReviewed = ebook.discuss.find((rev)=> rev.user.toString()===req.user._id.toString());
+
+   if(isReviewed){
+        ebook.discuss.forEach((rev) => {
+            if(rev.user.toString() === req.user._id.toString())
+                (rev.comment = comment);
+        });
+    }
+    else{
+        ebook.discuss.push(review);
+    }
+
+    await ebook.save();
+
+    res.status(200).json({
+        success:true,
+    });
+});
+
 
 
 Ebooks.watch().on("change",async() => {
