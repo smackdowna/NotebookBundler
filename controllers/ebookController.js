@@ -18,7 +18,7 @@ export const getAllEbooks = catchAsyncError(async(req,res,next)=>{
             $regex:keyword,
             $options:"i"
         },category:{
-            $regex:keyword,
+            $regex:category,
             $options:"i"  
         }
     });
