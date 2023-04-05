@@ -1,5 +1,5 @@
 import express  from "express";
-import { AddPdf, addComment, createEbook, deleteEbook, getAllEbooks, getEbook } from "../controllers/ebookController.js";
+import {  addComment, createEbook, deleteEbook, getAllComment, getAllEbooks, getEbook } from "../controllers/ebookController.js";
 import { authorizeAdmmin, isAuthenticated } from "../middlewares/auth.js";
 import singleUpload from "../middlewares/multer.js";
 
@@ -15,11 +15,10 @@ router.route("/createebooks").post(isAuthenticated,authorizeAdmmin,singleUpload,
 //get a single ebook and ADD PDF
 router.route("/ebook/:id")
     .get(isAuthenticated,getEbook)
-    .post(isAuthenticated,authorizeAdmmin,singleUpload,AddPdf)
     .delete(isAuthenticated,authorizeAdmmin,deleteEbook);
 
 
 
-router.route("/review/:id").put(isAuthenticated, addComment);
+router.route("/review/:id").put(isAuthenticated, addComment).get(getAllComment);
 
 export default router;

@@ -12,18 +12,10 @@ const schema = new mongoose.Schema({
         required:[true,'Please entere book description'],
         minLength:[20,"title must be at least 20 character"],
     },
-    bookLink:[
-        {
-        public_id:{
+    bookLink:{
             type:String,
             required:true,
         },
-        url:{
-            type:String,
-            required:true,
-        },
-    },
-   ],
     poster:{
         public_id:{
             type:String,
