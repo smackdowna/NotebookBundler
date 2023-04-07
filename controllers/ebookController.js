@@ -94,7 +94,7 @@ export const deleteEbook = catchAsyncError(async(req,res,next)=>{
 
     if(!ebooks) return next(new ErrorHandler("Ebook Not found",404));
 
-    await cloudinary.v2.uploader.destroy(ebooks.bookLink.public_id);
+    await cloudinary.v2.uploader.destroy(ebooks.poster.public_id);
     
     await ebooks.deleteOne();
 
