@@ -30,11 +30,13 @@ app.use(cors({
 import ebook from "./routes/ebookRoutes.js"
 import user from "./routes/userRoutes.js"
 import stats from "./routes/otherRoutes.js"
+import contact from "./routes/conatctRoute.js"
 
 
 app.use("/api/v1/",ebook);
 app.use("/api/v1/",user);
 app.use("/api/v1/",stats);
+app.use("/api/v1/",contact);
 
 
 
