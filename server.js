@@ -7,7 +7,7 @@ import { Stats } from "./models/Stats.js";
 connectDB();
 
 app.get("/",(req,res)=>{
-    res.send("worjking fine")
+    res.send(`worjking fine click Here to visit our website${process.env.FRONTEND_URL}`);
 })
 
 cloudinary.v2.config({
